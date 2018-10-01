@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "224734770388",
+    "firebase_url": "https://shoerecognitionapp-2d357.firebaseio.com",
+    "project_id": "shoerecognitionapp-2d357",
+    "storage_bucket": "shoerecognitionapp-2d357.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224734770388:android:71021709ba37d797",
+        "android_client_info": {
+          "package_name": "com.agacecornish.sra"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224734770388-u20k9903lluknj594cooco3f6j23i7c5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAESZH8Trr5wnZ2sqGiLbnKv9cwxrEH3po"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
