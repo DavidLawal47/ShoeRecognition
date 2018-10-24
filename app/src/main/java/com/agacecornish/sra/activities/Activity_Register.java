@@ -27,7 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class Activity_Register extends AppCompatActivity implements View.OnClickListener{
 
     private EditText mName, mEmail, mPassword, mCpassword;
-    Button registerButton, sign_In;
+    Button registerButton, signin_Button;
     private User regUser;
 
     //temp
@@ -37,6 +37,7 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
     private FirebaseAuth firebaseAuth;
 
     RelativeLayout screen1, btn, signIn;
+
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
         @Override
@@ -58,18 +59,33 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
 
 
 
-        screen1 = (RelativeLayout) findViewById(R.id.screen1);
-
+        screen1 =  findViewById(R.id.screen1);
         handler.postDelayed(runnable, 3000);
 
         mName =  findViewById(R.id.name);
         mEmail =  findViewById(R.id.email);
         mPassword =  findViewById(R.id.password);
         mCpassword =  findViewById(R.id.c_password);
-        registerButton = (Button) findViewById(R.id.btn);
+        registerButton =  findViewById(R.id.btn);
         registerButton.setOnClickListener(this);
 
-       // sign_In = (Button) findViewById(R.id.sign_in);
+
+       //method being called
+       backActivity();
+
+
+
+    }
+
+    //method allows the user to go back and forth from sign up page to sign in page
+    private void backActivity(){
+        signin_Button = findViewById(R.id.sign_in);
+        signin_Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
@@ -96,8 +112,8 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
 
                         if(task.isSuccessful()){
                             Log.d(mName.toString(),"User Registered/Authenticated");
-                            //startActivity(new Intent(getApplicationContext(),Activity_Register.class));
-                            //finish();
+                            startActivity(new Intent(getApplicationContext(),Main_Activity.class));
+                            finish();
                         }
                         else{
                             Toast.makeText(getApplicationContext(),"E-mail or password is wrong",Toast.LENGTH_SHORT).show();
@@ -105,18 +121,23 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
                     }
                 });
 
-        //creating user
-        //regUser = new User(mName.getText().toString(), authEmail, authPwd);
 
-        //adding user to database
-        //mDatabase.child("users").child("uID"+regUserCounter).setValue(regUser);
 
-        //increment do remove later
-        //regUserCounter++;
 
-        //Log.d(regUser.toString(), "User Registered");
+    }
+
+}
+
+//creating user
+//regUser = new User(mName.getText().toString(), authEmail, authPwd);
+
+//adding user to database
+//mDatabase.child("users").child("uID"+regUserCounter).setValue(regUser);
+
+//increment do remove later
+//regUserCounter++;
+
+//Log.d(regUser.toString(), "User Registered");
 
         /*Toast.makeText(v.getContext(), "Click here",
                 Toast.LENGTH_SHORT).show();*/
-    }
-}
