@@ -89,6 +89,7 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
 
     }
 
+    //register user
     @Override
     public void onClick(View v) {
 
@@ -104,6 +105,26 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
             return;
         }
 
+        firebaseAuth.createUserWithEmailAndPassword(authEmail, authPwd)
+                .addOnCompleteListener(Activity_Register.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Toast.makeText(Activity_Register.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                       // progressBar.setVisibility(View.GONE);
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(Activity_Register.this, "Authentication failed." + task.getException(),
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            startActivity(new Intent(Activity_Register.this, Main_Activity.class));
+                            finish();
+                        }
+                    }
+                });
+
+      /*  //original code 10/24/18
         firebaseAuth.createUserWithEmailAndPassword(authEmail,authPwd)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
@@ -111,6 +132,7 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if(task.isSuccessful()){
+
                             Log.d(mName.toString(),"User Registered/Authenticated");
                             startActivity(new Intent(getApplicationContext(),Main_Activity.class));
                             finish();
@@ -119,7 +141,21 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
                             Toast.makeText(getApplicationContext(),"E-mail or password is wrong",Toast.LENGTH_SHORT).show();
                         }
                     }
-                });
+                });*/
+
+        //creating user
+    regUser = new User(mName.getText().toString(), authEmail, authPwd);
+
+//adding user to database
+    mDatabase.child("users").child("uID"+regUserCounter).setValue(regUser);
+
+//increment do remove later
+    regUserCounter++;
+
+        Log.d(regUser.toString(), "User Registered");
+
+        Toast.makeText(v.getContext(), "Click here",
+                Toast.LENGTH_SHORT).show();
 
 
 

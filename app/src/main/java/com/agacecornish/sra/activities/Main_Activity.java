@@ -81,8 +81,8 @@ public class Main_Activity extends AppCompatActivity implements View.OnClickList
 
                         if (task.isSuccessful()) {
                             Log.d(mName.toString(), "User Registered/Authenticated");
-                            //startActivity(new Intent(getApplicationContext(),Activity_Register.class));
-                            //finish();
+                            startActivity(new Intent(getApplicationContext(),Activity_Register.class));
+                            finish();
                         } else {
                             Toast.makeText(getApplicationContext(), "E-mail or password is wrong", Toast.LENGTH_SHORT).show();
                         }
