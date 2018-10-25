@@ -83,7 +83,7 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
         signin_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                startActivity(new Intent(Activity_Register.this,Main_Activity.class));
             }
         });
 

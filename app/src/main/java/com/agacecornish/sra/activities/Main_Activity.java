@@ -42,6 +42,7 @@ public class Main_Activity extends AppCompatActivity implements View.OnClickList
 
         //method being called
         nextactivity();
+        userProfile();
 
 
     }
@@ -54,6 +55,16 @@ public class Main_Activity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Main_Activity.this,Activity_Register.class));
+            }
+        });
+    }
+        //method that opens the user profile page after they click login button
+    private void userProfile(){
+        login_Button = findViewById(R.id.btn_login);
+        login_Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Main_Activity.this,activity_userprofile.class));
             }
         });
     }
