@@ -7,8 +7,13 @@ import android.view.View;
 import android.widget.Button;
 
 import com.agacecornish.sra.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class activity_userprofile extends AppCompatActivity {
+
+    FirebaseAuth auth;
+    FirebaseUser user;
 
     Button goBack;
 
@@ -16,6 +21,9 @@ public class activity_userprofile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userprofile);
+
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
 
         goBackBtn();

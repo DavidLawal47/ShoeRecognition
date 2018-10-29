@@ -21,7 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 
 public class Main_Activity extends AppCompatActivity implements View.OnClickListener {
 
-    private DatabaseReference mDatabase;
+
     private FirebaseAuth firebaseAuth;
 
     private EditText mName, mEmail, mPassword, mCpassword;
@@ -41,8 +41,10 @@ public class Main_Activity extends AppCompatActivity implements View.OnClickList
         login_Button.setOnClickListener(this);
 
         //method being called
-        nextactivity();
-        userProfile();
+       //nextactivity();
+        //userProfile();
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
 
     }
@@ -64,7 +66,8 @@ public class Main_Activity extends AppCompatActivity implements View.OnClickList
         login_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Main_Activity.this,activity_userprofile.class));
+
+                startActivity(new Intent(Main_Activity.this, activity_userprofile.class));
             }
         });
     }
@@ -75,16 +78,39 @@ public class Main_Activity extends AppCompatActivity implements View.OnClickList
         String authEmail = mEmail.getText().toString();
         String authPwd = mPassword.getText().toString();
 
+        Log.d(authEmail, "This is my email");
+        Log.d(authPwd, "This is my password");
+
         if (TextUtils.isEmpty(authEmail)) {
             Toast.makeText(getApplicationContext(), "Please fill in the required fields", Toast.LENGTH_SHORT).show();
             return;
         }
         if (TextUtils.isEmpty(authPwd)) {
             Toast.makeText(getApplicationContext(), "Please fill in the required fields", Toast.LENGTH_SHORT).show();
-            return;
+             return;
         }
 
         firebaseAuth.signInWithEmailAndPassword(authEmail, authPwd)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+
+                            if (task.isSuccessful()) {
+                               // Log.d(mName.toString(), "User Registered/Authenticated");
+                                startActivity(new Intent(getApplicationContext(),activity_userprofile.class));
+                                //userProfile();
+                                finish();
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), "E-mail or password is wrong", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+                    });
+
+
+        /*firebaseAuth.signInWithEmailAndPassword(authEmail, authPwd)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
                     @Override
@@ -93,12 +119,13 @@ public class Main_Activity extends AppCompatActivity implements View.OnClickList
                         if (task.isSuccessful()) {
                             Log.d(mName.toString(), "User Registered/Authenticated");
                             startActivity(new Intent(getApplicationContext(),Activity_Register.class));
+                            //userProfile();
                             finish();
                         } else {
                             Toast.makeText(getApplicationContext(), "E-mail or password is wrong", Toast.LENGTH_SHORT).show();
                         }
                     }
-                });
+                });*/
 
 
 

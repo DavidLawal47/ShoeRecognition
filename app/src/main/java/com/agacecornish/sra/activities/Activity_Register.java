@@ -152,7 +152,7 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
 //increment do remove later
     regUserCounter++;
 
-        Log.d(regUser.toString(), "User Registered");
+        //Log.d(regUser.toString(), "User Registered");
 
         Toast.makeText(v.getContext(), "Click here",
                 Toast.LENGTH_SHORT).show();
