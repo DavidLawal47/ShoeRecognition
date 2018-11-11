@@ -4,7 +4,7 @@ public class User {
 
     private String name, email, password;
 
-    public User(){
+    public User(String s, String toString, String authEmail, String authPwd){
         // default constructor
     }
 

@@ -20,13 +20,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.security.cert.CertPathValidatorException;
 
 
 public class Activity_Register extends AppCompatActivity implements View.OnClickListener{
 
-    private EditText mName, mEmail, mPassword, mCpassword;
+    private EditText mFname, mLname, mEmail, mPassword, mCpassword;
     Button registerButton, signin_Button;
     private User regUser;
 
@@ -62,7 +65,8 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
         screen1 =  findViewById(R.id.screen1);
         handler.postDelayed(runnable, 3000);
 
-        mName =  findViewById(R.id.name);
+        mFname =  findViewById(R.id.fName);
+        mLname = findViewById(R.id.lName);
         mEmail =  findViewById(R.id.email);
         mPassword =  findViewById(R.id.password);
         mCpassword =  findViewById(R.id.c_password);
@@ -77,6 +81,9 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
 
     }
 
+    //method that recognized as an email address
+   
+
     //method allows the user to go back and forth from sign up page to sign in page
     private void backActivity(){
         signin_Button = findViewById(R.id.sign_in);
@@ -89,15 +96,58 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
 
     }
 
+    //Send verification mail to user method 11/11/2018 5:08am
+    private void sendVerificationEmai()
+    {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    //email sent
+                    Toast.makeText(getApplicationContext(), "Verification email sent", Toast.LENGTH_SHORT).show();
+
+                    //after email is sent log user out
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(new Intent(Activity_Register.this, Main_Activity.class));
+                    finish();
+                }
+                else{
+                    //email not sent restart activity
+                    Toast.makeText(getApplicationContext(), "ERROR! Verification NOT sent", Toast.LENGTH_SHORT).show();
+                    overridePendingTransition(0,0);
+                    finish();
+                    overridePendingTransition(0,0);
+                    startActivity(getIntent());
+
+                }
+                }
+        });
+    }
+
     //register user
     @Override
     public void onClick(View v) {
 
         String authEmail = mEmail.getText().toString();
         String authPwd = mPassword.getText().toString();
+        String authFirstname = mFname.getText().toString();
+        String authLastname = mLname.getText().toString();
+        String authCpwd = mCpassword.getText().toString();
 
+        if(TextUtils.isEmpty(authFirstname) || authFirstname.length() > 30){
+            Toast.makeText(getApplicationContext(),"Please fill in the required fields",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Name cannot exceed 30 Characters",Toast.LENGTH_SHORT).show();
+            return;
+            }
+        if(TextUtils.isEmpty(authLastname) || authLastname.length() > 30){
+            Toast.makeText(getApplicationContext(),"Please fill in the required fields or Name cannot exceed 30 Characters",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Name cannot exceed 30 Characters",Toast.LENGTH_SHORT).show();
+            return;
+        }
         if(TextUtils.isEmpty(authEmail)){
             Toast.makeText(getApplicationContext(),"Please fill in the required fields",Toast.LENGTH_SHORT).show();
+
             return;
         }
         if(TextUtils.isEmpty(authPwd) || authPwd.length() < 15){
@@ -105,11 +155,21 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
             return;
         }
 
+        if(TextUtils.isEmpty(authCpwd) || authCpwd != null && !authCpwd.equals(authPwd)){
+            Toast.makeText(getApplicationContext(),"Please fill in the required fields or password doesn't match",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+
+
+
         firebaseAuth.createUserWithEmailAndPassword(authEmail, authPwd)
                 .addOnCompleteListener(Activity_Register.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Toast.makeText(Activity_Register.this, "createUserWithEmail:onComplete:" + task.isSuccessful(), Toast.LENGTH_SHORT).show();
+                        sendVerificationEmai();
                        // progressBar.setVisibility(View.GONE);
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
@@ -119,32 +179,14 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             startActivity(new Intent(Activity_Register.this, Main_Activity.class));
+                            backActivity();
                             finish();
                         }
                     }
                 });
 
-      /*  //original code 10/24/18
-        firebaseAuth.createUserWithEmailAndPassword(authEmail,authPwd)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        if(task.isSuccessful()){
-
-                            Log.d(mName.toString(),"User Registered/Authenticated");
-                            startActivity(new Intent(getApplicationContext(),Main_Activity.class));
-                            finish();
-                        }
-                        else{
-                            Toast.makeText(getApplicationContext(),"E-mail or password is wrong",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });*/
-
         //creating user
-    regUser = new User(mName.getText().toString(), authEmail, authPwd);
+    regUser = new User(mFname.getText().toString(),mLname.getText().toString(),authEmail, authPwd);
 
 //adding user to database
     mDatabase.child("users").child("uID"+regUserCounter).setValue(regUser);
@@ -156,24 +198,7 @@ public class Activity_Register extends AppCompatActivity implements View.OnClick
 
         Toast.makeText(v.getContext(), "Click here",
                 Toast.LENGTH_SHORT).show();
-
-
-
-
-    }
+        }
 
 }
 
-//creating user
-//regUser = new User(mName.getText().toString(), authEmail, authPwd);
-
-//adding user to database
-//mDatabase.child("users").child("uID"+regUserCounter).setValue(regUser);
-
-//increment do remove later
-//regUserCounter++;
-
-//Log.d(regUser.toString(), "User Registered");
-
-        /*Toast.makeText(v.getContext(), "Click here",
-                Toast.LENGTH_SHORT).show();*/

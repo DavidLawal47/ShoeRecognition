@@ -17,14 +17,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Main_Activity extends AppCompatActivity implements View.OnClickListener {
 
 
     private FirebaseAuth firebaseAuth;
 
-    private EditText mName, mEmail, mPassword, mCpassword;
+    private EditText mFname, mLname, mEmail, mPassword, mCpassword;
     private User regUser;
     Button login_Button, signup_Button;
 
@@ -33,15 +33,16 @@ public class Main_Activity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_);
 
-        mName = findViewById(R.id.name);
-        mEmail = findViewById(R.id.email);
-        mPassword = findViewById(R.id.password);
-        mCpassword = findViewById(R.id.c_password);
+        mFname =  findViewById(R.id.fName);
+        mLname = findViewById(R.id.lName);
+        mEmail =  findViewById(R.id.email);
+        mPassword =  findViewById(R.id.password);
+        mCpassword =  findViewById(R.id.c_password);
         login_Button = findViewById(R.id.btn_login);
         login_Button.setOnClickListener(this);
 
         //method being called
-       //nextactivity();
+       nextactivity();
         //userProfile();
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -67,10 +68,33 @@ public class Main_Activity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(Main_Activity.this, activity_userprofile.class));
+                startActivity(new Intent(Main_Activity.this, Activity_UsrProfile.class));
             }
         });
     }
+
+    //check if the user email is verified 11/11//2018
+    private void checkIfEmailVerified()
+    {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user.isEmailVerified())
+        {
+            finish();
+            Toast.makeText(getApplicationContext(), "Email is now verified", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+           // FirebaseAuth.getInstance().signOut();
+            Toast.makeText(getApplicationContext(), "ERROR! Your email was not verified", Toast.LENGTH_SHORT).show();
+            overridePendingTransition(0,0);
+            finish();
+            overridePendingTransition(0,0);
+            startActivity(getIntent());
+        }
+    }
+
+
 
 
     public void onClick(View v) {
@@ -96,10 +120,13 @@ public class Main_Activity extends AppCompatActivity implements View.OnClickList
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
 
+                            nextactivity();
+
                             if (task.isSuccessful()) {
                                // Log.d(mName.toString(), "User Registered/Authenticated");
-                                startActivity(new Intent(getApplicationContext(),activity_userprofile.class));
-                                //userProfile();
+                                startActivity(new Intent(getApplicationContext(),Activity_UsrProfile.class));
+                                userProfile();
+                                nextactivity();
                                 finish();
 
                             } else {
@@ -109,43 +136,6 @@ public class Main_Activity extends AppCompatActivity implements View.OnClickList
                         }
                     });
 
-
-        /*firebaseAuth.signInWithEmailAndPassword(authEmail, authPwd)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        if (task.isSuccessful()) {
-                            Log.d(mName.toString(), "User Registered/Authenticated");
-                            startActivity(new Intent(getApplicationContext(),Activity_Register.class));
-                            //userProfile();
-                            finish();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "E-mail or password is wrong", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });*/
-
-
-
-        /*//method called when user clicks the sign up button
-        signup_Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                openRegisterActivity();
-
-            }
-        });
-
-    }
-
-    public void openRegisterActivity(){
-
-        Intent intent = new Intent(this, Main_Activity.class);
-        startActivity(intent);
-    }*/
 
     }
 }

@@ -12,11 +12,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginRight="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="40dp"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
         <ImageView
             android:id="@+id/imgView_logo"
@@ -61,13 +59,35 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-light"
-                        android:text="Name"
+                        android:text="First Name"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="15dp" />
+
+
+                    <EditText
+                        android:id="@+id/fName"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/et"
+                        android:fontFamily="sans-serif-light"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:textColor="@color/white"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Last Name"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
                         android:textSize="15dp" />
 
                     <EditText
-                        android:id="@+id/name"
+                        android:id="@+id/lName"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="5dp"
@@ -173,31 +193,27 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="85dp"
                         android:layout_marginTop="30dp"
                         android:background="@drawable/btn_bg"
                         android:fontFamily="sans-serif-medium"
                         android:paddingLeft="70dp"
                         android:paddingRight="70dp"
                         android:text="Register Now"
-                        android:layout_marginLeft="50dp"
                         android:textAllCaps="false"
-                        android:textSize="16dp"
-
                         android:textColor="@color/white"
-                        />
+
+                        android:textSize="16dp" />
 
                     <Button
                         android:id="@+id/sign_in"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Already have an accout? Sign In"
-                        android:layout_marginLeft="40dp"
                         android:layout_below="@id/btn"
+                        android:layout_marginLeft="80dp"
                         android:background="@color/transparent"
-                        android:textColor="@color/white"/>
-
-
-
+                        android:text="Already have an accout? Sign In"
+                        android:textColor="@color/white" />
 
 
                 </LinearLayout>
@@ -206,11 +222,7 @@
             </LinearLayout>
 
 
-
-
         </RelativeLayout>
-
-
 
 
     </RelativeLayout>
