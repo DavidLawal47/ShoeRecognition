@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.agacecornish.sra.R;
 import com.agacecornish.sra.models.User;
@@ -22,6 +23,8 @@ import com.google.firebase.auth.FirebaseUser;
 public class Main_Activity extends AppCompatActivity implements View.OnClickListener {
 
 
+
+
     private FirebaseAuth firebaseAuth;
 
     private EditText mFname, mLname, mEmail, mPassword, mCpassword;
@@ -32,6 +35,7 @@ public class Main_Activity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_);
+
 
         mFname =  findViewById(R.id.fName);
         mLname = findViewById(R.id.lName);
@@ -49,6 +53,7 @@ public class Main_Activity extends AppCompatActivity implements View.OnClickList
 
 
     }
+
 
     //method allows the user to go back and forth from sign in page to sign up page
     private void nextactivity(){
